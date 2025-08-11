@@ -1,120 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .fundo{
-            background-image: linear-gradient(45deg,black,#E1cc);
-            height: 100vh;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-        }
-        .calculadora{
-            position: absolute;
-            background-color: #3737bb;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            border-radius: 15px;
-            padding: 15px;
-        }
-        .botao{
-            width: 50px;
-            height: 50px;
-            font-size: 25px;
-            cursor: pointer;
-            margin: 3px;
-            background-color: rgb(82, 248, 5);
-            border: none;
-            color: #fff;
-        }
-        .botao:hover{
-            background-color: black;
-        }
-        #resultado{
-            background-color: white;
-            width: 207px;
-            height: 30px;
-            margin: 5px;
-            font-size: 25px;
-            color: rgb(0, 0, 0);
-            text-align: right;
-            padding: 5px;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Calculator</title>
+<style>
+  :root {
+    --neon-pink: #ff2a6d;
+    --neon-blue: #05d9e8;
+    --neon-purple: #d300c5;
+    --neon-green: #00ff9d;
+    --neon-yellow: #f9f002;
+    --background-dark: #0a0a0a;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .calculadora {
+    background-color: var(--background-dark);
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow:
+      0 0 10px var(--neon-pink),
+      0 0 20px var(--neon-pink),
+      0 0 30px var(--neon-pink),
+      0 0 40px var(--neon-purple);
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .calculadora h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow:
+      0 0 5px var(--neon-pink),
+      0 0 10px var(--neon-pink),
+      0 0 20px var(--neon-purple);
+  }
+
+  #resultado {
+    background-color: #111;
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: var(--neon-green);
+    padding: 0 15px;
+    text-align: right;
+    line-height: 50px;
+    box-shadow:
+      inset 0 0 10px var(--neon-green);
+    user-select: none;
+    overflow-wrap: break-word;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .botao {
+    width: 100%;
+    height: 60px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 5px 2px;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(145deg, var(--neon-pink), var(--neon-blue));
+    box-shadow:
+      0 0 5px var(--neon-pink),
+      0 0 10px var(--neon-blue),
+      0 0 20px var(--neon-purple);
+    transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+  }
+
+  .botao:hover {
+    background: linear-gradient(145deg, var(--neon-yellow), var(--neon-green));
+    box-shadow:
+      0 0 10px var(--neon-yellow),
+      0 0 25px var(--neon-green),
+      0 0 40px var(--neon-blue);
+    color: #000;
+  }
+
+  .botao:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 5px var(--neon-green);
+  }
+
+  /* Special buttons style */
+  .botao.operator {
+    background: linear-gradient(145deg, var(--neon-purple), var(--neon-pink));
+  }
+
+  .botao.operator:hover {
+    background: linear-gradient(145deg, var(--neon-blue), var(--neon-yellow));
+    color: #000;
+  }
+
+  .botao.equal {
+    background: var(--neon-green);
+    color: #000;
+    font-weight: bold;
+    height: 130px;
+    box-shadow:
+      0 0 15px var(--neon-green),
+      0 0 35px var(--neon-green),
+      0 0 60px var(--neon-yellow);
+  }
+
+  .botao.equal:hover {
+    background: var(--neon-yellow);
+    box-shadow:
+      0 0 20px var(--neon-yellow),
+      0 0 50px var(--neon-yellow),
+      0 0 80px var(--neon-green);
+    color: #000;
+  }
+
+  /* Responsive grid for buttons */
+  table tr td {
+    padding: 3px;
+  }
+
+  @media (max-width: 400px) {
+    #resultado {
+      font-size: 1.5rem;
+      height: 45px;
+    }
+
+    .botao {
+      height: 50px;
+      font-size: 1.2rem;
+    }
+
+    .botao.equal {
+      height: 100px;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="fundo">
-        <h1>N!k's Calculator </h1>
-        <div class="calculadora">
-            <h1>Calculator</h1>
-            <p id="resultado"></p>
-            <table>
-                <tr>
-                    <td><button class="botao" onclick="clean()">C</button></td>
-                    <td><button class="botao" onclick="back()"><</button></td>
-                    <td><button class="botao" onclick="insert('/')">/</button></td>
-                    <td><button class="botao" onclick="insert('*')">X</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('7')">7</button></td>
-                    <td><button class="botao" onclick="insert('8')">8</button></td>
-                    <td><button class="botao" onclick="insert('9')">9</button></td>
-                    <td><button class="botao" onclick="insert('-')">-</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('4')">4</button></td>
-                    <td><button class="botao" onclick="insert('5')">5</button></td>
-                    <td><button class="botao" onclick="insert('6')">6</button></td>
-                    <td><button class="botao" onclick="insert('+')">+</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('1')">1</button></td>
-                    <td><button class="botao" onclick="insert('2')">2</button></td>
-                    <td><button class="botao" onclick="insert('3')">3</button></td>
-                    <td rowspan="2"><button class="botao" style="height: 106px;" onclick="calcular()">=</button></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><button class="botao" style="width: 106px;" onclick="insert('0')">0</button></td>
-                    <td><button class="botao" onclick="insert('.')">.</button></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <script>
-        function insert(num)
-        {
-            var numero = document.getElementById('resultado').innerHTML;
-            document.getElementById('resultado').innerHTML = numero + num;
+  <div class="calculadora" role="region" aria-label="Calculadora">
+    <h1>N!k's Calculator</h1>
+    <p id="resultado" aria-live="polite" aria-atomic="true"></p>
+    <table>
+      <tr>
+        <td><button class="botao operator" onclick="clean()" aria-label="Limpar">C</button></td>
+        <td><button class="botao operator" onclick="back()" aria-label="Apagar último caractere">&lt;</button></td>
+        <td><button class="botao operator" onclick="insert('/')" aria-label="Divisão">/</button></td>
+        <td><button class="botao operator" onclick="insert('*')" aria-label="Multiplicação">X</button></td>
+      </tr>
+      <tr>
+        <td><button class="botao" onclick="insert('7')" aria-label="Número 7">7</button></td>
+        <td><button class="botao" onclick="insert('8')" aria-label="Número 8">8</button></td>
+        <td><button class="botao" onclick="insert('9')" aria-label="Número 9">9</button></td>
+        <td><button class="botao operator" onclick="insert('-')" aria-label="Subtração">-</button></td>
+      </tr>
+      <tr>
+        <td><button class="botao" onclick="insert('4')" aria-label="Número 4">4</button></td>
+        <td><button class="botao" onclick="insert('5')" aria-label="Número 5">5</button></td>
+        <td><button class="botao" onclick="insert('6')" aria-label="Número 6">6</button></td>
+        <td><button class="botao operator" onclick="insert('+')" aria-label="Adição">+</button></td>
+      </tr>
+      <tr>
+        <td><button class="botao" onclick="insert('1')" aria-label="Número 1">1</button></td>
+        <td><button class="botao" onclick="insert('2')" aria-label="Número 2">2</button></td>
+        <td><button class="botao" onclick="insert('3')" aria-label="Número 3">3</button></td>
+        <td rowspan="2"><button class="botao equal" onclick="calcular()" aria-label="Calcular">=</button></td>
+      </tr>
+      <tr>
+        <td colspan="2"><button class="botao" style="width: 100%;" onclick="insert('0')" aria-label="Número 0">0</button></td>
+        <td><button class="botao" onclick="insert('.')" aria-label="Ponto decimal">.</button></td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    const resultado = document.getElementById('resultado');
+
+    function insert(num) {
+      resultado.textContent += num;
+    }
+
+    function clean() {
+      resultado.textContent = '';
+    }
+
+    function back() {
+      resultado.textContent = resultado.textContent.slice(0, -1);
+    }
+
+    function calcular() {
+      let expressao = resultado.textContent;
+      if (!expressao) {
+        resultado.textContent = 'Nada...';
+        return;
+      }
+
+      // Prevenir execução de código malicioso usando regex para validar apenas números e operadores
+      if (/[^0-9+\-*/.]/.test(expressao)) {
+        resultado.textContent = 'Erro!';
+        return;
+      }
+
+      try {
+        let resultadoCalc = eval(expressao);
+        if (resultadoCalc === undefined) {
+          resultado.textContent = 'Erro!';
+        } else {
+          resultado.textContent = resultadoCalc;
         }
-        function clean()
-        {
-            document.getElementById('resultado').innerHTML = "";
-        }
-        function back()
-        {
-            var resultado = document.getElementById('resultado').innerHTML;
-            document.getElementById('resultado').innerHTML = resultado.substring(0, resultado.length -1);
-        }
-        function calcular()
-        {
-            var resultado = document.getElementById('resultado').innerHTML;
-            if(resultado)
-            {
-                document.getElementById('resultado').innerHTML = eval(resultado);
-            }
-            else
-            {
-                document.getElementById('resultado').innerHTML = "Nada..."
-            }
-        }
-    </script>
+      } catch (e) {
+        resultado.textContent = 'Erro!';
+      }
+    }
+  </script>
 </body>
 </html>
